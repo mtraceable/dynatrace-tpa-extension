@@ -1,0 +1,265 @@
+name: custom:traceableai-tpa-metrics
+version: 1.0.35
+minDynatraceVersion: "1.249"
+author:
+  name: TraceableAI
+dashboards:
+  - path: "dashboards/dashboard.json"
+alerts:
+  - path: "alerts/span_alerts.json"
+topology:
+  types:
+    - name: traceable:tpainstance
+      displayName: Traceable Platform Agent Host
+      enabled: true
+      rules:
+        - idPattern: tpa_generic_host_{dt.entity.host}
+          sources:
+            - sourceType: Metrics
+              condition: $prefix(ai.traceableai.traceableagent)
+          attributes:
+            - key: "traceable_monitored"
+              displayName: "Environment Monitored By Traceable"
+              pattern: "true"
+            - key: "service_version"
+              displayName: "TPA Version"
+              pattern: "{service_version}"
+            - key: "host_name"
+              displayName: "Machine Host Name"
+              pattern: "{host.name}"
+            - key: "entity_name"
+              displayName: "Machines Dynatrace Entity Name"
+              pattern: "{dt.entity.host}"
+          requiredDimensions: []
+          instanceNamePattern: Traceable Platform Agent Host on {dt.entity.host}
+  relationships:
+    - typeOfRelation: RUNS_ON
+      fromType: traceable:tpainstance
+      toType: host
+      enabled: true
+      sources:
+        - sourceType: Metrics
+          condition: $prefix(ai.traceableai.traceableagent)
+prometheus:
+  - group: TPA
+    interval:
+      minutes: 1
+    featureSet: prometheus_app_metrics
+    dimensions:
+      - key: host
+        value: this:device.host
+      - key: traceableai
+        value: const:traceableai
+    subgroups:
+      # global counters
+      - subgroup: traceableai global counter
+        dimensions:
+          - key: traceableai_tpa_global_counters
+            value: const:traceableai_tpa_global_counters
+        metrics:
+          - key: ai.traceableai.traceableagent.otelcol_exporter_sent_spans
+            value: metric:otelcol_exporter_sent_spans
+            type: count
+            featureSet: prometheus_app_metrics
+          - key: ai.traceableai.traceableagent.otelcol_receiver_accepted_metric_points
+            value: metric:otelcol_receiver_accepted_metric_points
+            type: count
+            featureSet: prometheus_app_metrics
+          - key: ai.traceableai.traceableagent.otelcol_receiver_refused_metric_points
+            value: metric:otelcol_receiver_refused_metric_points
+            type: count
+            featureSet: prometheus_app_metrics
+          - key: ai.traceableai.traceableagent.otelcol_process_cpu_seconds
+            value: metric:otelcol_process_cpu_seconds
+            type: count
+            featureSet: prometheus_app_metrics
+          - key: ai.traceableai.traceableagent.otelcol_receiver_accepted_spans
+            value: metric:otelcol_receiver_accepted_spans
+            type: count
+            featureSet: prometheus_app_metrics
+          - key: ai.traceableai.traceableagent.up
+            value: metric:up
+            type: count
+            featureSet: prometheus_app_metrics
+          - key: ai.traceableai.traceableagent.otelcol_exporter_enqueue_failed_metric_points
+            value: metric:otelcol_exporter_enqueue_failed_metric_points
+            type: count
+            featureSet: prometheus_app_metrics
+          - key: ai.traceableai.traceableagent.otelcol_exporter_sent_metric_points
+            value: metric:otelcol_exporter_sent_metric_points
+            type: count
+            featureSet: prometheus_app_metrics
+          - key: ai.traceableai.traceableagent.otelcol_process_runtime_total_alloc_bytes
+            value: metric:otelcol_process_runtime_total_alloc_bytes
+            type: count
+            featureSet: prometheus_app_metrics
+          - key: ai.traceableai.traceableagent.otelcol_process_uptime
+            value: metric:otelcol_process_uptime
+            type: count
+            featureSet: prometheus_app_metrics
+          - key: ai.traceableai.traceableagent.otelcol_processor_batch_timeout_trigger_send
+            value: metric:otelcol_processor_batch_timeout_trigger_send
+            type: count
+            featureSet: prometheus_app_metrics
+          - key: ai.traceableai.traceableagent.otelcol_exporter_enqueue_failed_spans
+            value: metric:otelcol_exporter_enqueue_failed_spans
+            type: count
+            featureSet: prometheus_app_metrics
+          - key: ai.traceableai.traceableagent.otelcol_receiver_refused_spans
+            value: metric:otelcol_receiver_refused_spans
+            type: count
+            featureSet: prometheus_app_metrics
+          - key: ai.traceableai.traceableagent.otelcol_exporter_enqueue_failed_log_records
+            value: metric:otelcol_exporter_enqueue_failed_log_records
+            type: count
+            featureSet: prometheus_app_metrics
+          - key: ai.traceableai.traceableagent.traceableagent.heartbeat
+            value: metric:traceableagent.heartbeat
+            type: count
+            featureSet: prometheus_app_metrics
+          - key: ai.traceableai.traceableagent.otelcol_exporter_send_failed_metric_points
+            value: metric:otelcol_exporter_send_failed_metric_points
+            type: count
+            featureSet: prometheus_app_metrics
+          - key: ai.traceableai.traceableagent.otelcol_exporter_send_failed_requests
+            value: metric:otelcol_exporter_send_failed_requests
+            type: count
+            featureSet: prometheus_app_metrics
+          - key: ai.traceableai.traceableagent.otelcol_exporter_send_failed_spans
+            value: metric:otelcol_exporter_send_failed_spans
+            type: count
+            featureSet: prometheus_app_metrics
+          - key: ai.traceableai.traceableagent.otelcol_processor_batch_batch_send_size_count
+            value: metric:otelcol_processor_batch_batch_send_size_count
+            type: count
+            featureSet: prometheus_app_metrics
+          - key: ai.traceableai.traceableagent.otelcol_processor_batch_batch_send_size_sum
+            value: metric:otelcol_processor_batch_batch_send_size_sum
+            type: count
+            featureSet: prometheus_app_metrics
+      - subgroup: traceableai global gauges
+        dimensions:
+          - key: traceableai_tpa_global_gauges
+            value: const:traceableai_tpa_global_gauges
+        metrics:
+          - key: ai.traceableai.traceableagent.otelcol_exporter_queue_capacity
+            value: metric:otelcol_exporter_queue_capacity
+            type: gauge
+            featureSet: prometheus_app_metrics
+          - key: ai.traceableai.traceableagent.otelcol_process_runtime_total_sys_memory_bytes
+            value: metric:otelcol_process_runtime_total_sys_memory_bytes
+            type: gauge
+            featureSet: prometheus_app_metrics
+          - key: ai.traceableai.traceableagent.scrape_duration_seconds
+            value: metric:scrape_duration_seconds
+            type: gauge
+            featureSet: prometheus_app_metrics
+          - key: ai.traceableai.traceableagent.scrape_samples_scraped
+            value: metric:scrape_samples_scraped
+            type: gauge
+            featureSet: prometheus_app_metrics
+          - key: ai.traceableai.traceableagent.scrape_series_added
+            value: metric:scrape_series_added
+            type: gauge
+            featureSet: prometheus_app_metrics
+          - key: ai.traceableai.traceableagent.otelcol_exporter_queue_size
+            value: metric:otelcol_exporter_queue_size
+            type: gauge
+            featureSet: prometheus_app_metrics
+          - key: ai.traceableai.traceableagent.otelcol_process_runtime_heap_alloc_bytes
+            value: metric:otelcol_process_runtime_heap_alloc_bytes
+            type: gauge
+            featureSet: prometheus_app_metrics
+          - key: ai.traceableai.traceableagent.scrape_samples_post_metric_relabeling
+            value: metric:scrape_samples_post_metric_relabeling
+            type: gauge
+            featureSet: prometheus_app_metrics
+          - key: ai.traceableai.traceableagent.otelcol_process_memory_rss
+            value: metric:otelcol_process_memory_rss
+            type: gauge
+            featureSet: prometheus_app_metrics
+          - key: ai.traceableai.traceableagent.otelcol_processor_traceable_traces_buffer_size
+            value: metric:otelcol_processor_traceable_traces_buffer_size
+            type: gauge
+            featureSet: prometheus_app_metrics
+screens:
+  - entityType: HOST
+    detailsInjections:
+      - type: CHART_GROUP
+        key: span_and_metrics
+        entitySelectorTemplate: type(traceable:tpainstance), fromRelationships.runsOn($(entityConditions))
+        conditions:
+          - relatedEntity|entitySelectorTemplate=type(traceable:tpainstance), fromRelationships.runsOn($(entityConditions))
+  - entityType: traceable:tpainstance
+    detailsInjections:
+      - type: CHART_GROUP
+        key: span_and_metrics
+    detailsSettings:
+      staticContent:
+        showProblems: true
+        showProperties: true
+        showTags: true
+        showGlobalFilter: true
+        showAddTag: true
+      layout:
+        autoGenerate: false
+        cards:
+          - key: span_and_metrics
+            type: CHART_GROUP
+    chartsCards:
+      - key: span_and_metrics
+        displayName: "Traceable Spans and Metrics"
+        numberOfVisibleCharts: 4
+        charts:
+          - displayName: "Spans Success"
+            conditions: []
+            visualizationType: GRAPH_CHART
+            graphChartConfig:
+              metrics:
+                - metricSelector: "ai.traceableai.traceableagent.otelcol_exporter_sent_spans.count:splitBy()"
+                  visualization:
+                    displayName: Spans Sent
+                    seriesType: LINE
+                - metricSelector: "ai.traceableai.traceableagent.otelcol_receiver_accepted_spans.count:splitBy()"
+                  visualization:
+                    displayName: Spans Received
+                    seriesType: LINE
+          - displayName: "Spans Failure"
+            conditions: []
+            visualizationType: GRAPH_CHART
+            graphChartConfig:
+              metrics:
+                - metricSelector: "ai.traceableai.traceableagent.otelcol_exporter_send_failed_spans.count:splitBy()"
+                  visualization:
+                    displayName: Spans Sent Failures
+                    seriesType: LINE
+                - metricSelector: "ai.traceableai.traceableagent.otelcol_receiver_refused_spans.count:splitBy()"
+                  visualization:
+                    displayName: Spans Received Failures
+                    seriesType: LINE
+          - displayName: "Metrics Success"
+            conditions: []
+            visualizationType: GRAPH_CHART
+            graphChartConfig:
+              metrics:
+                - metricSelector: "ai.traceableai.traceableagent.otelcol_exporter_sent_metric_points.count:splitBy()"
+                  visualization:
+                    displayName: Metrics Sent
+                    seriesType: LINE
+                - metricSelector: "ai.traceableai.traceableagent.otelcol_receiver_accepted_metric_points.count:splitBy()"
+                  visualization:
+                    displayName: Metrics Received
+                    seriesType: LINE
+          - displayName: "Metrics Failure"
+            conditions: []
+            visualizationType: GRAPH_CHART
+            graphChartConfig:
+              metrics:
+                - metricSelector: "ai.traceableai.traceableagent.otelcol_exporter_send_failed_metric_points.count:splitBy()"
+                  visualization:
+                    displayName: Metrics Sent Failures
+                    seriesType: LINE
+                - metricSelector: "ai.traceableai.traceableagent.otelcol_receiver_refused_metric_points.count:splitBy()"
+                  visualization:
+                    displayName: Metrics Received Failures
+                    seriesType: LINE

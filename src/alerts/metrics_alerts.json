@@ -1,0 +1,29 @@
+{
+  "metadata":{
+    "configurationVersions":[1],
+    "clusterVersion":"1.241.0.20220415-082911"
+  },
+  "id":"384ae2b1-0e65-4194-891b-33109644d42b",
+  "metricSelector":"ai.traceableai.traceableagent.otelcol_exporter_sent_metric_points",
+  "name":"Sent Metrics Alert",
+  "description":"The {metricname} value was {alert_condition} normal behavior.",
+  "severity":"CUSTOM_ALERT",
+  "enabled":true,
+  "disabledReason":"NONE",
+  "warningReason":"NONE",
+  "monitoringStrategy":{
+    "type":"STATIC_THRESHOLD",
+    "samples":5,
+    "violatingSamples":3,
+    "dealertingSamples":5,
+    "alertCondition":"BELOW",
+    "alertingOnMissingData":true,
+    "threshold":1
+  },
+  "alertCondition":"BELOW",
+  "samples":5,
+  "violatingSamples":3,
+  "dealertingSamples":5,
+  "threshold":1,
+  "eventType":"CUSTOM_ALERT"
+}

@@ -1,0 +1,30 @@
+{
+  "metadata": {
+    "configurationVersions": [
+      1
+    ],
+    "clusterVersion": "1.241.0.20220415-082911"
+  },
+  "id": "489e9b02-091f-4e44-9003-efea2a234681",
+  "metricSelector": "ai.traceableai.traceableagent.otelcol_exporter_sent_spans.count:filter(and(or(in(\"dt.entity.host\",entitySelector(\"type(host),toRelationship.runsOn(type(traceable:tpainstance),traceable_monitored(~\"true~\"))\"))))):splitBy():sort(value(auto,descending))",
+  "name": "Sent Spans Alert",
+  "description": "The {metricname} value was {alert_condition} normal behavior.",
+  "severity": "CUSTOM_ALERT",
+  "enabled": true,
+  "disabledReason": "NONE",
+  "warningReason": "NONE",
+  "monitoringStrategy": {
+    "type": "AUTO_ADAPTIVE_BASELINE",
+    "samples": 5,
+    "violatingSamples": 3,
+    "dealertingSamples": 5,
+    "alertCondition": "BELOW",
+    "alertingOnMissingData": true,
+    "numberOfSignalFluctuations": 1
+  },
+  "alertCondition": "BELOW",
+  "samples": 5,
+  "violatingSamples": 3,
+  "dealertingSamples": 5,
+  "eventType": "CUSTOM_ALERT"
+}
