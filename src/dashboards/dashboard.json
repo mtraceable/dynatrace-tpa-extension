@@ -1,11 +1,11 @@
 {
   "metadata": {
     "configurationVersions": [
-      6
+      7
     ],
-    "clusterVersion": "1.259.275.20230203-181100"
+    "clusterVersion": "1.268.99.20230612-093340"
   },
-  "id": "d7f00347-e930-42d2-bcd7-9e9c17e4d938",
+  "id": "58ce9ce4-8063-46ca-818b-c26ebbbf835c",
   "dashboardMetadata": {
     "name": "TraceableAI TPA Dashboard",
     "shared": false,
@@ -14,11 +14,196 @@
       "filters": [
         "CUSTOM_DIMENSION:host.name",
         "CUSTOM_DIMENSION:service_version"
-      ]
+      ],
+      "genericTagFilters": []
     },
     "hasConsistentColors": false
   },
   "tiles": [
+    {
+      "name": "CPU Usage",
+      "tileType": "DATA_EXPLORER",
+      "configured": true,
+      "bounds": {
+        "top": 0,
+        "left": 0,
+        "width": 608,
+        "height": 304
+      },
+      "tileFilter": {},
+      "isAutoRefreshDisabled": false,
+      "customName": "CPU usage",
+      "queries": [
+        {
+          "id": "F",
+          "spaceAggregation": "AUTO",
+          "timeAggregation": "DEFAULT",
+          "splitBy": [
+            "dt.entity.host"
+          ],
+          "metricSelector": "builtin:host.cpu.usage:filter(and(or(in(\"dt.entity.host\",entitySelector(\"type(host),toRelationship.runsOn(type(traceable:tpainstance),traceable_monitored(~\"true~\"))\"))))):splitBy(\"dt.entity.host\"):sort(value(auto,descending)):limit(20)",
+          "rate": "NONE",
+          "enabled": true
+        }
+      ],
+      "visualConfig": {
+        "type": "HONEYCOMB",
+        "global": {
+          "hideLegend": false
+        },
+        "rules": [
+          {
+            "matcher": "F:",
+            "unitTransform": "auto",
+            "valueFormat": "auto",
+            "properties": {
+              "color": "DEFAULT",
+              "seriesType": "AREA"
+            },
+            "seriesOverrides": []
+          }
+        ],
+        "axes": {
+          "xAxis": {
+            "visible": true
+          },
+          "yAxes": []
+        },
+        "heatmapSettings": {
+          "yAxis": "VALUE"
+        },
+        "thresholds": [
+          {
+            "axisTarget": "LEFT",
+            "rules": [
+              {
+                "value": 0,
+                "color": "#7dc540"
+              },
+              {
+                "value": 60,
+                "color": "#f5d30f"
+              },
+              {
+                "value": 90,
+                "color": "#dc172a"
+              }
+            ],
+            "queryId": "",
+            "visible": true
+          }
+        ],
+        "tableSettings": {
+          "isThresholdBackgroundAppliedToCell": false,
+          "hiddenColumns": []
+        },
+        "graphChartSettings": {
+          "connectNulls": false
+        },
+        "honeycombSettings": {
+          "showHive": true,
+          "showLegend": true,
+          "showLabels": false
+        }
+      },
+      "queriesSettings": {
+        "resolution": ""
+      },
+      "metricExpressions": [
+        "resolution=Inf&(builtin:host.cpu.usage:filter(and(or(in(\"dt.entity.host\",entitySelector(\"type(host),toRelationship.runsOn(type(traceable:tpainstance),traceable_monitored(~\"true~\"))\"))))):splitBy(\"dt.entity.host\"):sort(value(auto,descending)):limit(20)):names"
+      ]
+    },
+    {
+      "name": "Memory Usage",
+      "tileType": "DATA_EXPLORER",
+      "configured": true,
+      "bounds": {
+        "top": 0,
+        "left": 608,
+        "width": 608,
+        "height": 304
+      },
+      "tileFilter": {},
+      "isAutoRefreshDisabled": false,
+      "customName": "Data explorer results",
+      "queries": [
+        {
+          "id": "A",
+          "spaceAggregation": "AUTO",
+          "timeAggregation": "DEFAULT",
+          "splitBy": [
+            "dt.entity.host"
+          ],
+          "metricSelector": "builtin:host.mem.usage:filter(and(or(in(\"dt.entity.host\",entitySelector(\"type(host),toRelationship.runsOn(type(traceable:tpainstance),traceable_monitored(~\"true~\"))\"))))):splitBy(\"dt.entity.host\"):sort(value(auto,descending)):limit(20)",
+          "rate": "NONE",
+          "enabled": true
+        }
+      ],
+      "visualConfig": {
+        "type": "HONEYCOMB",
+        "global": {
+          "hideLegend": false
+        },
+        "rules": [
+          {
+            "matcher": "A:",
+            "properties": {
+              "color": "DEFAULT"
+            },
+            "seriesOverrides": []
+          }
+        ],
+        "axes": {
+          "xAxis": {
+            "visible": true
+          },
+          "yAxes": []
+        },
+        "heatmapSettings": {
+          "yAxis": "VALUE",
+          "showLabels": false
+        },
+        "thresholds": [
+          {
+            "axisTarget": "LEFT",
+            "rules": [
+              {
+                "value": 0,
+                "color": "#7dc540"
+              },
+              {
+                "value": 80,
+                "color": "#f5d30f"
+              },
+              {
+                "value": 90,
+                "color": "#dc172a"
+              }
+            ],
+            "queryId": "",
+            "visible": true
+          }
+        ],
+        "tableSettings": {
+          "isThresholdBackgroundAppliedToCell": false,
+          "hiddenColumns": []
+        },
+        "graphChartSettings": {
+          "connectNulls": false
+        },
+        "honeycombSettings": {
+          "showHive": true,
+          "showLegend": true,
+          "showLabels": false
+        }
+      },
+      "queriesSettings": {
+        "resolution": ""
+      },
+      "metricExpressions": [
+        "resolution=Inf&(builtin:host.mem.usage:filter(and(or(in(\"dt.entity.host\",entitySelector(\"type(host),toRelationship.runsOn(type(traceable:tpainstance),traceable_monitored(~\"true~\"))\"))))):splitBy(\"dt.entity.host\"):sort(value(auto,descending)):limit(20)):names"
+      ]
+    },
     {
       "name": "Sent Spans Per Server",
       "tileType": "DATA_EXPLORER",
@@ -35,11 +220,12 @@
       "queries": [
         {
           "id": "A",
+          "spaceAggregation": "AUTO",
           "timeAggregation": "DEFAULT",
           "splitBy": [
             "dt.entity.host"
           ],
-          "metricSelector": "ai.traceableai.traceableagent.otelcol_exporter_sent_spans.count:filter(and(or(in(\"dt.entity.host\",entitySelector(\"type(host),toRelationship.runsOn(type(traceable:tpainstance),traceable_monitored(~\"true~\"))\"))))):splitBy(\"dt.entity.host\"):sort(value(auto,descending)):limit(20)",
+          "metricSelector": "ai.traceableai.traceableagent.otelcol_exporter_sent_spans.count:filter(and(or(in(\"dt.entity.host\",entitySelector(\"type(host),toRelationship.runsOn(type(traceable:tpainstance),traceable_monitored(~\"true~\"))\"))))):splitBy(\"dt.entity.host\"):default(0):sort(value(auto,descending)):limit(20)",
           "rate": "NONE",
           "enabled": true
         }
@@ -109,7 +295,8 @@
           }
         ],
         "tableSettings": {
-          "isThresholdBackgroundAppliedToCell": false
+          "isThresholdBackgroundAppliedToCell": false,
+          "hiddenColumns": []
         },
         "graphChartSettings": {
           "connectNulls": false
@@ -124,106 +311,15 @@
         "resolution": ""
       },
       "metricExpressions": [
-        "resolution=null&(ai.traceableai.traceableagent.otelcol_exporter_sent_spans.count:filter(and(or(in(\"dt.entity.host\",entitySelector(\"type(host),toRelationship.runsOn(type(traceable:tpainstance),traceable_monitored(~\"true~\"))\"))))):splitBy(\"dt.entity.host\"):sort(value(auto,descending)):limit(20)):limit(100):names"
+        "resolution=null&(ai.traceableai.traceableagent.otelcol_exporter_sent_spans.count:filter(and(or(in(\"dt.entity.host\",entitySelector(\"type(host),toRelationship.runsOn(type(traceable:tpainstance),traceable_monitored(~\"true~\"))\"))))):splitBy(\"dt.entity.host\"):default(0):sort(value(auto,descending)):limit(20)):limit(100):names"
       ]
     },
     {
-      "name": "CPU Usage",
+      "name": "Span Send Failures Per TPA",
       "tileType": "DATA_EXPLORER",
       "configured": true,
       "bounds": {
-        "top": 0,
-        "left": 0,
-        "width": 608,
-        "height": 304
-      },
-      "tileFilter": {},
-      "isAutoRefreshDisabled": false,
-      "customName": "CPU usage",
-      "queries": [
-        {
-          "id": "F",
-          "timeAggregation": "DEFAULT",
-          "splitBy": [
-            "dt.entity.host"
-          ],
-          "metricSelector": "builtin:host.cpu.usage:filter(and(or(in(\"dt.entity.host\",entitySelector(\"type(host),toRelationship.runsOn(type(traceable:tpainstance),traceable_monitored(~\"true~\"))\"))))):splitBy(\"dt.entity.host\"):sort(value(auto,descending)):limit(20)",
-          "rate": "NONE",
-          "enabled": true
-        }
-      ],
-      "visualConfig": {
-        "type": "HONEYCOMB",
-        "global": {
-          "hideLegend": false
-        },
-        "rules": [
-          {
-            "matcher": "F:",
-            "unitTransform": "auto",
-            "valueFormat": "auto",
-            "properties": {
-              "color": "DEFAULT",
-              "seriesType": "AREA"
-            },
-            "seriesOverrides": []
-          }
-        ],
-        "axes": {
-          "xAxis": {
-            "visible": true
-          },
-          "yAxes": []
-        },
-        "heatmapSettings": {
-          "yAxis": "VALUE"
-        },
-        "thresholds": [
-          {
-            "axisTarget": "LEFT",
-            "rules": [
-              {
-                "value": 0,
-                "color": "#7dc540"
-              },
-              {
-                "value": 60,
-                "color": "#f5d30f"
-              },
-              {
-                "value": 90,
-                "color": "#dc172a"
-              }
-            ],
-            "queryId": "",
-            "visible": true
-          }
-        ],
-        "tableSettings": {
-          "isThresholdBackgroundAppliedToCell": false
-        },
-        "graphChartSettings": {
-          "connectNulls": false
-        },
-        "honeycombSettings": {
-          "showHive": true,
-          "showLegend": true,
-          "showLabels": false
-        }
-      },
-      "queriesSettings": {
-        "resolution": ""
-      },
-      "metricExpressions": [
-        "resolution=Inf&(builtin:host.cpu.usage:filter(and(or(in(\"dt.entity.host\",entitySelector(\"type(host),toRelationship.runsOn(type(traceable:tpainstance),traceable_monitored(~\"true~\"))\"))))):splitBy(\"dt.entity.host\"):sort(value(auto,descending)):limit(20)):names"
-      ]
-    },
-    {
-      "name": "Memory Usage",
-      "tileType": "DATA_EXPLORER",
-      "configured": true,
-      "bounds": {
-        "top": 0,
+        "top": 304,
         "left": 608,
         "width": 608,
         "height": 304
@@ -234,17 +330,18 @@
       "queries": [
         {
           "id": "A",
+          "spaceAggregation": "AUTO",
           "timeAggregation": "DEFAULT",
           "splitBy": [
             "dt.entity.host"
           ],
-          "metricSelector": "builtin:host.mem.usage:filter(and(or(in(\"dt.entity.host\",entitySelector(\"type(host),toRelationship.runsOn(type(traceable:tpainstance),traceable_monitored(~\"true~\"))\"))))):splitBy(\"dt.entity.host\"):sort(value(auto,descending)):limit(20)",
+          "metricSelector": "ai.traceableai.traceableagent.otelcol_exporter_send_failed_spans.count:filter(and(or(in(\"dt.entity.host\",entitySelector(\"type(host),toRelationship.runsOn(type(traceable:tpainstance),traceable_monitored(~\"true~\"))\"))))):splitBy(\"dt.entity.host\"):default(0):sort(value(auto,descending)):limit(20)",
           "rate": "NONE",
           "enabled": true
         }
       ],
       "visualConfig": {
-        "type": "HONEYCOMB",
+        "type": "GRAPH_CHART",
         "global": {
           "hideLegend": false
         },
@@ -259,9 +356,22 @@
         ],
         "axes": {
           "xAxis": {
+            "displayName": "",
             "visible": true
           },
-          "yAxes": []
+          "yAxes": [
+            {
+              "displayName": "",
+              "visible": true,
+              "min": "AUTO",
+              "max": "AUTO",
+              "position": "LEFT",
+              "queryIds": [
+                "A"
+              ],
+              "defaultAxis": true
+            }
+          ]
         },
         "heatmapSettings": {
           "yAxis": "VALUE",
@@ -272,15 +382,12 @@
             "axisTarget": "LEFT",
             "rules": [
               {
-                "value": 0,
                 "color": "#7dc540"
               },
               {
-                "value": 80,
                 "color": "#f5d30f"
               },
               {
-                "value": 90,
                 "color": "#dc172a"
               }
             ],
@@ -289,7 +396,8 @@
           }
         ],
         "tableSettings": {
-          "isThresholdBackgroundAppliedToCell": false
+          "isThresholdBackgroundAppliedToCell": false,
+          "hiddenColumns": []
         },
         "graphChartSettings": {
           "connectNulls": false
@@ -304,7 +412,7 @@
         "resolution": ""
       },
       "metricExpressions": [
-        "resolution=Inf&(builtin:host.mem.usage:filter(and(or(in(\"dt.entity.host\",entitySelector(\"type(host),toRelationship.runsOn(type(traceable:tpainstance),traceable_monitored(~\"true~\"))\"))))):splitBy(\"dt.entity.host\"):sort(value(auto,descending)):limit(20)):names"
+        "resolution=null&(ai.traceableai.traceableagent.otelcol_exporter_send_failed_spans.count:filter(and(or(in(\"dt.entity.host\",entitySelector(\"type(host),toRelationship.runsOn(type(traceable:tpainstance),traceable_monitored(~\"true~\"))\"))))):splitBy(\"dt.entity.host\"):default(0):sort(value(auto,descending)):limit(20)):limit(100):names"
       ]
     },
     {
@@ -323,11 +431,12 @@
       "queries": [
         {
           "id": "A",
+          "spaceAggregation": "AUTO",
           "timeAggregation": "DEFAULT",
           "splitBy": [
             "dt.entity.host"
           ],
-          "metricSelector": "ai.traceableai.traceableagent.otelcol_receiver_accepted_spans.count:filter(and(or(in(\"dt.entity.host\",entitySelector(\"type(host),toRelationship.runsOn(type(traceable:tpainstance),traceable_monitored(~\"true~\"))\"))))):splitBy(\"dt.entity.host\"):sort(value(auto,descending)):limit(20)",
+          "metricSelector": "ai.traceableai.traceableagent.otelcol_receiver_accepted_spans.count:filter(and(or(in(\"dt.entity.host\",entitySelector(\"type(host),toRelationship.runsOn(type(traceable:tpainstance),traceable_monitored(~\"true~\"))\"))))):splitBy(\"dt.entity.host\"):default(0):sort(value(auto,descending)):limit(20)",
           "rate": "NONE",
           "enabled": true
         }
@@ -388,7 +497,8 @@
           }
         ],
         "tableSettings": {
-          "isThresholdBackgroundAppliedToCell": false
+          "isThresholdBackgroundAppliedToCell": false,
+          "hiddenColumns": []
         },
         "graphChartSettings": {
           "connectNulls": false
@@ -403,7 +513,7 @@
         "resolution": ""
       },
       "metricExpressions": [
-        "resolution=null&(ai.traceableai.traceableagent.otelcol_receiver_accepted_spans.count:filter(and(or(in(\"dt.entity.host\",entitySelector(\"type(host),toRelationship.runsOn(type(traceable:tpainstance),traceable_monitored(~\"true~\"))\"))))):splitBy(\"dt.entity.host\"):sort(value(auto,descending)):limit(20)):limit(100):names"
+        "resolution=null&(ai.traceableai.traceableagent.otelcol_receiver_accepted_spans.count:filter(and(or(in(\"dt.entity.host\",entitySelector(\"type(host),toRelationship.runsOn(type(traceable:tpainstance),traceable_monitored(~\"true~\"))\"))))):splitBy(\"dt.entity.host\"):default(0):sort(value(auto,descending)):limit(20)):limit(100):names"
       ]
     },
     {
@@ -422,11 +532,12 @@
       "queries": [
         {
           "id": "A",
+          "spaceAggregation": "AUTO",
           "timeAggregation": "DEFAULT",
           "splitBy": [
             "dt.entity.host"
           ],
-          "metricSelector": "ai.traceableai.traceableagent.otelcol_receiver_refused_spans.count:filter(and(or(in(\"dt.entity.host\",entitySelector(\"type(host),toRelationship.runsOn(type(traceable:tpainstance),traceable_monitored(~\"true~\"))\"))))):splitBy(\"dt.entity.host\"):sort(value(auto,descending)):limit(20)",
+          "metricSelector": "ai.traceableai.traceableagent.otelcol_receiver_refused_spans.count:filter(and(or(in(\"dt.entity.host\",entitySelector(\"type(host),toRelationship.runsOn(type(traceable:tpainstance),traceable_monitored(~\"true~\"))\"))))):splitBy(\"dt.entity.host\"):default(0):sort(value(auto,descending)):limit(20)",
           "rate": "NONE",
           "enabled": true
         }
@@ -487,7 +598,8 @@
           }
         ],
         "tableSettings": {
-          "isThresholdBackgroundAppliedToCell": false
+          "isThresholdBackgroundAppliedToCell": false,
+          "hiddenColumns": []
         },
         "graphChartSettings": {
           "connectNulls": false
@@ -502,7 +614,7 @@
         "resolution": ""
       },
       "metricExpressions": [
-        "resolution=null&(ai.traceableai.traceableagent.otelcol_receiver_refused_spans.count:filter(and(or(in(\"dt.entity.host\",entitySelector(\"type(host),toRelationship.runsOn(type(traceable:tpainstance),traceable_monitored(~\"true~\"))\"))))):splitBy(\"dt.entity.host\"):sort(value(auto,descending)):limit(20)):limit(100):names"
+        "resolution=null&(ai.traceableai.traceableagent.otelcol_receiver_refused_spans.count:filter(and(or(in(\"dt.entity.host\",entitySelector(\"type(host),toRelationship.runsOn(type(traceable:tpainstance),traceable_monitored(~\"true~\"))\"))))):splitBy(\"dt.entity.host\"):default(0):sort(value(auto,descending)):limit(20)):limit(100):names"
       ]
     },
     {
@@ -521,17 +633,19 @@
       "queries": [
         {
           "id": "A",
+          "spaceAggregation": "AUTO",
           "timeAggregation": "DEFAULT",
           "splitBy": [],
-          "metricSelector": "ai.traceableai.traceableagent.otelcol_exporter_sent_spans.count:filter(and(or(in(\"dt.entity.host\",entitySelector(\"type(host),toRelationship.runsOn(type(traceable:tpainstance),traceable_monitored(~\"true~\"))\"))))):splitBy():sort(value(auto,descending)):limit(20)",
+          "metricSelector": "ai.traceableai.traceableagent.otelcol_exporter_sent_spans.count:filter(and(or(in(\"dt.entity.host\",entitySelector(\"type(host),toRelationship.runsOn(type(traceable:tpainstance),traceable_monitored(~\"true~\"))\"))))):splitBy():default(0):sort(value(auto,descending)):limit(20)",
           "rate": "NONE",
           "enabled": true
         },
         {
           "id": "B",
+          "spaceAggregation": "AUTO",
           "timeAggregation": "DEFAULT",
           "splitBy": [],
-          "metricSelector": "ai.traceableai.traceableagent.otelcol_receiver_accepted_spans.count:filter(and(or(in(\"dt.entity.host\",entitySelector(\"type(host),toRelationship.runsOn(type(traceable:tpainstance),traceable_monitored(~\"true~\"))\"))))):splitBy():sort(value(auto,descending)):limit(20)",
+          "metricSelector": "ai.traceableai.traceableagent.otelcol_receiver_accepted_spans.count:filter(and(or(in(\"dt.entity.host\",entitySelector(\"type(host),toRelationship.runsOn(type(traceable:tpainstance),traceable_monitored(~\"true~\"))\"))))):splitBy():default(0):sort(value(auto,descending)):limit(20)",
           "rate": "NONE",
           "enabled": true
         }
@@ -608,7 +722,8 @@
           }
         ],
         "tableSettings": {
-          "isThresholdBackgroundAppliedToCell": false
+          "isThresholdBackgroundAppliedToCell": false,
+          "hiddenColumns": []
         },
         "graphChartSettings": {
           "connectNulls": false
@@ -623,106 +738,7 @@
         "resolution": ""
       },
       "metricExpressions": [
-        "resolution=null&(ai.traceableai.traceableagent.otelcol_exporter_sent_spans.count:filter(and(or(in(\"dt.entity.host\",entitySelector(\"type(host),toRelationship.runsOn(type(traceable:tpainstance),traceable_monitored(~\"true~\"))\"))))):splitBy():sort(value(auto,descending)):limit(20)):limit(100):names,(ai.traceableai.traceableagent.otelcol_receiver_accepted_spans.count:filter(and(or(in(\"dt.entity.host\",entitySelector(\"type(host),toRelationship.runsOn(type(traceable:tpainstance),traceable_monitored(~\"true~\"))\"))))):splitBy():sort(value(auto,descending)):limit(20)):limit(100):names"
-      ]
-    },
-    {
-      "name": "Span Send Failures Per TPA",
-      "tileType": "DATA_EXPLORER",
-      "configured": true,
-      "bounds": {
-        "top": 304,
-        "left": 608,
-        "width": 608,
-        "height": 304
-      },
-      "tileFilter": {},
-      "isAutoRefreshDisabled": false,
-      "customName": "Data explorer results",
-      "queries": [
-        {
-          "id": "A",
-          "timeAggregation": "DEFAULT",
-          "splitBy": [
-            "dt.entity.host"
-          ],
-          "metricSelector": "ai.traceableai.traceableagent.otelcol_exporter_send_failed_spans.count:filter(and(or(in(\"dt.entity.host\",entitySelector(\"type(host),toRelationship.runsOn(type(traceable:tpainstance),traceable_monitored(~\"true~\"))\"))))):splitBy(\"dt.entity.host\"):sort(value(auto,descending)):limit(20)",
-          "rate": "NONE",
-          "enabled": true
-        }
-      ],
-      "visualConfig": {
-        "type": "GRAPH_CHART",
-        "global": {
-          "hideLegend": false
-        },
-        "rules": [
-          {
-            "matcher": "A:",
-            "properties": {
-              "color": "DEFAULT"
-            },
-            "seriesOverrides": []
-          }
-        ],
-        "axes": {
-          "xAxis": {
-            "displayName": "",
-            "visible": true
-          },
-          "yAxes": [
-            {
-              "displayName": "",
-              "visible": true,
-              "min": "AUTO",
-              "max": "AUTO",
-              "position": "LEFT",
-              "queryIds": [
-                "A"
-              ],
-              "defaultAxis": true
-            }
-          ]
-        },
-        "heatmapSettings": {
-          "yAxis": "VALUE",
-          "showLabels": false
-        },
-        "thresholds": [
-          {
-            "axisTarget": "LEFT",
-            "rules": [
-              {
-                "color": "#7dc540"
-              },
-              {
-                "color": "#f5d30f"
-              },
-              {
-                "color": "#dc172a"
-              }
-            ],
-            "queryId": "",
-            "visible": true
-          }
-        ],
-        "tableSettings": {
-          "isThresholdBackgroundAppliedToCell": false
-        },
-        "graphChartSettings": {
-          "connectNulls": false
-        },
-        "honeycombSettings": {
-          "showHive": true,
-          "showLegend": true,
-          "showLabels": false
-        }
-      },
-      "queriesSettings": {
-        "resolution": ""
-      },
-      "metricExpressions": [
-        "resolution=null&(ai.traceableai.traceableagent.otelcol_exporter_send_failed_spans.count:filter(and(or(in(\"dt.entity.host\",entitySelector(\"type(host),toRelationship.runsOn(type(traceable:tpainstance),traceable_monitored(~\"true~\"))\"))))):splitBy(\"dt.entity.host\"):sort(value(auto,descending)):limit(20)):limit(100):names"
+        "resolution=null&(ai.traceableai.traceableagent.otelcol_exporter_sent_spans.count:filter(and(or(in(\"dt.entity.host\",entitySelector(\"type(host),toRelationship.runsOn(type(traceable:tpainstance),traceable_monitored(~\"true~\"))\"))))):splitBy():default(0):sort(value(auto,descending)):limit(20)):limit(100):names,(ai.traceableai.traceableagent.otelcol_receiver_accepted_spans.count:filter(and(or(in(\"dt.entity.host\",entitySelector(\"type(host),toRelationship.runsOn(type(traceable:tpainstance),traceable_monitored(~\"true~\"))\"))))):splitBy():default(0):sort(value(auto,descending)):limit(20)):limit(100):names"
       ]
     }
   ]
