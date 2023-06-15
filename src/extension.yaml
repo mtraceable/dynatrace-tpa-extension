@@ -1,5 +1,5 @@
 name: custom:traceableai-tpa-metrics
-version: 1.0.36
+version: 1.0.37
 minDynatraceVersion: "1.249"
 author:
   name: TraceableAI
@@ -216,11 +216,11 @@ screens:
             visualizationType: GRAPH_CHART
             graphChartConfig:
               metrics:
-                - metricSelector: "ai.traceableai.traceableagent.otelcol_exporter_sent_spans.count:splitBy()"
+                - metricSelector: "ai.traceableai.traceableagent.otelcol_exporter_sent_spans.count:default(0):splitBy()"
                   visualization:
                     displayName: Spans Sent
                     seriesType: LINE
-                - metricSelector: "ai.traceableai.traceableagent.otelcol_receiver_accepted_spans.count:splitBy()"
+                - metricSelector: "ai.traceableai.traceableagent.otelcol_receiver_accepted_spans.count:default(0):splitBy()"
                   visualization:
                     displayName: Spans Received
                     seriesType: LINE
@@ -229,11 +229,11 @@ screens:
             visualizationType: GRAPH_CHART
             graphChartConfig:
               metrics:
-                - metricSelector: "ai.traceableai.traceableagent.otelcol_exporter_send_failed_spans.count:splitBy()"
+                - metricSelector: "ai.traceableai.traceableagent.otelcol_exporter_send_failed_spans.count:default(0):splitBy()"
                   visualization:
                     displayName: Spans Sent Failures
                     seriesType: LINE
-                - metricSelector: "ai.traceableai.traceableagent.otelcol_receiver_refused_spans.count:splitBy()"
+                - metricSelector: "ai.traceableai.traceableagent.otelcol_receiver_refused_spans.count:default(0):splitBy()"
                   visualization:
                     displayName: Spans Received Failures
                     seriesType: LINE
@@ -242,11 +242,11 @@ screens:
             visualizationType: GRAPH_CHART
             graphChartConfig:
               metrics:
-                - metricSelector: "ai.traceableai.traceableagent.otelcol_exporter_sent_metric_points.count:splitBy()"
+                - metricSelector: "ai.traceableai.traceableagent.otelcol_exporter_sent_metric_points.count:default(0):splitBy()"
                   visualization:
                     displayName: Metrics Sent
                     seriesType: LINE
-                - metricSelector: "ai.traceableai.traceableagent.otelcol_receiver_accepted_metric_points.count:splitBy()"
+                - metricSelector: "ai.traceableai.traceableagent.otelcol_receiver_accepted_metric_points.count:default(0):splitBy()"
                   visualization:
                     displayName: Metrics Received
                     seriesType: LINE
@@ -255,11 +255,11 @@ screens:
             visualizationType: GRAPH_CHART
             graphChartConfig:
               metrics:
-                - metricSelector: "ai.traceableai.traceableagent.otelcol_exporter_send_failed_metric_points.count:splitBy()"
+                - metricSelector: "ai.traceableai.traceableagent.otelcol_exporter_send_failed_metric_points.count:default(0):splitBy()"
                   visualization:
                     displayName: Metrics Sent Failures
                     seriesType: LINE
-                - metricSelector: "ai.traceableai.traceableagent.otelcol_receiver_refused_metric_points.count:splitBy()"
+                - metricSelector: "ai.traceableai.traceableagent.otelcol_receiver_refused_metric_points.count:default(0):splitBy()"
                   visualization:
                     displayName: Metrics Received Failures
                     seriesType: LINE
