@@ -1,5 +1,5 @@
 name: custom:traceableai-tpa-metrics
-version: 1.0.37
+version: 1.0.38
 minDynatraceVersion: "1.249"
 author:
   name: TraceableAI
